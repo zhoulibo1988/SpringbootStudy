@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chigua.springboot.mapper.StudentMapper">
+ <resultMap id="BaseResultMap" type="com.chigua.springboot.entity.Student">
+     <id column="id" jdbcType="BIGINT" property="id"/>
+     <id column="sno" jdbcType="VARCHAR" property="sno"/>
+     <id column="name" jdbcType="VARCHAR" property="name"/>
+     <id column="sex" jdbcType="VARCHAR" property="sex"/>
+ </resultMap>
+    <insert id="add" >
+        insert  into
+            student(sno,name,sex)
+        values
+            (#{sno},#{name},#{sex})
+    </insert>
+    <select id="queryStudentBySno" resultMap="BaseResultMap">
+        select  * from student where sno=#{sno}
+    </select>
+</mapper>
