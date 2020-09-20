@@ -17,6 +17,6 @@ public class TestController {
     @RequestMapping("/getName")
     @ResponseBody
     public String getName(){
-        return "hello,my name  is zlb";
+        return "hello,my name  is zlbwww";
     }
 }
