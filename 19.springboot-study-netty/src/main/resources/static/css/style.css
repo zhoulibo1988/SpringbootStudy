@@ -194,8 +194,8 @@ body {
   position: relative;
   display: none;
   overflow: hidden;
-  padding: 0 35px 92px;
-  border-width: 1px 1px 1px 0;
+  padding: 0 35px 150px;
+  border-width: 1px 0px 1px 0;
   border-style: solid;
   border-color: var(--light);
   height: calc(100% - 48px);

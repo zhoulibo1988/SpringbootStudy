@@ -50,8 +50,8 @@ public class NettyServer {
                             //以块的方式来写的处理器
                             ch.pipeline().addLast(new ChunkedWriteHandler());
                             ch.pipeline().addLast(new HttpObjectAggregator(8192));
-                            //ch.pipeline().addLast(new OnlineWebSocketHandler());//添加在线客服聊天消息处理类
-                            ch.pipeline().addLast(new ImWebSocketHandler());//添加测试的聊天消息处理类
+                           // ch.pipeline().addLast(new OnlineWebSocketHandler());//添加在线客服聊天消息处理类
+                             ch.pipeline().addLast(new ImWebSocketHandler());//添加测试的聊天消息处理类
                             ch.pipeline().addLast(new WebSocketServerProtocolHandler("/ws", null, true, 65536 * 10));
                         }
                     });

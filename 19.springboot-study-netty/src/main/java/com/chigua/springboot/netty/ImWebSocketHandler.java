@@ -80,16 +80,18 @@ public class ImWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             List<Integer> groupIds = userGroupService.findGroupIdByUserId(userId);
             ChannelGroup cGroup = null;
             //查询用户拥有的组是否已经创建了
-            for (Integer groupId : groupIds) {
-                cGroup = groupMap.get(groupId);
-                //如果群聊管理对象没有创建
-                if (cGroup == null) {
-                    //构建一个channelGroup群聊管理对象然后放入groupMap中
-                    cGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-                    groupMap.put(groupId, cGroup);
+            if(null!=groupIds){
+                for (Integer groupId : groupIds) {
+                    cGroup = groupMap.get(groupId);
+                    //如果群聊管理对象没有创建
+                    if (cGroup == null) {
+                        //构建一个channelGroup群聊管理对象然后放入groupMap中
+                        cGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+                        groupMap.put(groupId, cGroup);
+                    }
+                    //把用户放到群聊管理对象里去
+                    cGroup.add(ctx.channel());
                 }
-                //把用户放到群聊管理对象里去
-                cGroup.add(ctx.channel());
             }
             //如果url包含参数，需要处理
             if (uri.contains("?")) {

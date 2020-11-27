@@ -4,14 +4,14 @@ document.querySelector('.person[data-chat=person2]').classList.add('active');
 var friends = {
   list: document.querySelector('ul.people'),
   all: document.querySelectorAll('.left .person'),
-  name: '' },
+  name: '', ID: ''},
 
 chat = {
   container: document.querySelector('.container .right'),
   current: null,
   person: null,
-  name: document.querySelector('.container .right .top .name') };
-
+  name: document.querySelector('.container .right .top .name'),
+  ID: document.querySelector('.container .right .top .ID')};
 
 friends.all.forEach(function (f) {
   f.addEventListener('mousedown', function () {
@@ -27,5 +27,7 @@ function setAciveChat(f) {
   chat.current.classList.remove('active-chat');
   chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
   friends.name = f.querySelector('.name').innerText;
+  friends.ID = f.querySelector('.ID').innerText;
   chat.name.innerHTML = friends.name;
+  chat.ID.innerHTML=friends.ID;
 }

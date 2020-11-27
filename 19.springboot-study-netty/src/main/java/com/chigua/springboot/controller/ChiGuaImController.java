@@ -1,6 +1,7 @@
 package com.chigua.springboot.controller;
 
 import com.chigua.springboot.entity.ChiGuaUser;
+import com.chigua.springboot.service.ChiGuaUserService;
 import com.chigua.springboot.service.UserGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,8 @@ public class ChiGuaImController {
 
     @Autowired
     UserGroupService userGroupService;
+    @Autowired
+    ChiGuaUserService chiGuaUserService;
 
     /**
      * 登录页面
@@ -40,7 +44,7 @@ public class ChiGuaImController {
     @ApiOperation(value = "login", notes = "登录页面")
     @RequestMapping("/login")
     public String login() {
-        return "test/login";
+        return "login";
     }
 
     /**
@@ -58,40 +62,40 @@ public class ChiGuaImController {
     /**
      * 登录页面
      */
-    @ApiOperation(value = "im", notes = "im页面")
-    @RequestMapping("/im")
-    public String im(Model model) {
-        ChiGuaUser chiGuaUser=new ChiGuaUser();
-        chiGuaUser.setId(1);
-        chiGuaUser.setName("Thomas Bangalter");
-        chiGuaUser.setPreview("I was wondering...");
-        chiGuaUser.setTime("2:09 PM");
-        chiGuaUser.setImg("images/thomas.jpg");
-        ChiGuaUser chiGuaUser1=new ChiGuaUser();
-        chiGuaUser1.setId(2);
-        chiGuaUser1.setName("Dog Woofson");
-        chiGuaUser1.setPreview("I was wondering...");
-        chiGuaUser1.setTime("2:09 PM");
-        chiGuaUser1.setImg("images/dog.png");
-        ChiGuaUser chiGuaUser2=new ChiGuaUser();
-        chiGuaUser2.setId(3);
-        chiGuaUser2.setName("Louis CK");
-        chiGuaUser2.setPreview("I was wondering...");
-        chiGuaUser2.setTime("2:09 PM");
-        chiGuaUser2.setImg("images/louis-ck.jpeg");
+    @ApiOperation(value = "im.do", notes = "im页面")
+    @RequestMapping("/im.do")
+    public String im(@RequestParam String logemail, String logpass, HttpSession session, Model model) {
+        //简单登录
+        ChiGuaUser chiGuaUser = new ChiGuaUser();
+        chiGuaUser.setEmil(logemail);
+        chiGuaUser.setPssword(logpass);
+        chiGuaUser = chiGuaUserService.login(chiGuaUser);
+        if (chiGuaUser != null) {
+            System.out.println(logemail);
+            System.out.println(logpass);
+            session.setAttribute("userId", chiGuaUser.getId());
+            //获取其他用户列表
+            List<ChiGuaUser> users = chiGuaUserService.getChiguaUserList(chiGuaUser);
+            model.addAttribute("users", users);
+            model.addAttribute("ws", ws);
+            return "im";
+        } else {
+            return "errer";
+        }
+    }
 
-        ChiGuaUser chiGuaUser3=new ChiGuaUser();
-        chiGuaUser3.setId(4);
-        chiGuaUser3.setName("Bo Jackson");
-        chiGuaUser3.setPreview("It’s not that bad...");
-        chiGuaUser3.setTime("2:09 PM");
-        chiGuaUser3.setImg("images/bo-jackson.jpg");
-        List<ChiGuaUser> users = new ArrayList<>();
-        users.add(chiGuaUser3);
-        users.add(chiGuaUser2);
-        users.add(chiGuaUser1);
-        users.add(chiGuaUser);
-        model.addAttribute("users", users);
-        return "im";
+
+    @ApiOperation(value = "register.do", notes = "注册")
+    @RequestMapping("/register.do")
+    public String register(@RequestParam String logemail,@RequestParam String logpass, @RequestParam String logname) {
+        //简单登录
+        ChiGuaUser chiGuaUser = new ChiGuaUser();
+        chiGuaUser.setEmil(logemail);
+        chiGuaUser.setPssword(logpass);
+        chiGuaUser.setName(logname);
+        chiGuaUser.setIsDel(0);
+        chiGuaUser.setCreateTime(new Date());
+        chiGuaUserService.addUser(chiGuaUser);
+        return "login";
     }
 }

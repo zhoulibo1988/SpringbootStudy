@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HTML5电脑端微信聊天窗口界面</title>
+    <title>无痕交流网</title>
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <link rel="stylesheet" href="css/reset.min.css">
@@ -11,7 +11,6 @@
 
 </head>
 <body>
-
 <div class="wrapper">
     <div class="container">
         <div class="left">
@@ -22,146 +21,158 @@
             <ul class="people">
                     <li class="person" th:data-chat="person+${userStat.index+1}" th:each="ChiGuaUser,userStat:${users}" >
                         <img th:src="${ChiGuaUser.img}" alt="" />
-                        <span class="name" th:text="${ChiGuaUser.name}"></span>
+                        <span class="ID"  th:text="${ChiGuaUser.id}" style="display:none"></span>
+                        <span class="name" th:text="${ChiGuaUser.name}" th:id="${ChiGuaUser.id}"></span>
                         <span class="time" th:text="${ChiGuaUser.time}"></span>
                         <span class="preview" th:text="${ChiGuaUser.preview}"></span>
                     </li>
             </ul>
         </div>
         <div class="right">
+            <div class="top"><span>ID: <span class="ID" id="IDS">1</span></span></div>
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" data-chat="person1">
-                <div class="conversation-start">
-                    <span>Today, 6:48 AM</span>
+            <div class="chat " th:data-chat="person+${userStat.index+1}" th:each="ChiGuaUser,userStat:${users}" th:id="person+${ChiGuaUser.id}">
+                <div class="bubble you" th:id="you+${ChiGuaUser.id}">
+                    <li>文明聊天</li>
                 </div>
-                <div class="bubble you">
-                    Hello,
-                </div>
-                <div class="bubble you">
-                    it's me.
-                </div>
-                <div class="bubble you">
-                    I was wondering...
-                </div>
-            </div>
-            <div class="chat" data-chat="person2">
-                <div class="conversation-start">
-                    <span>Today, 5:38 PM</span>
-                </div>
-                <div class="bubble you">
-                    Hello, can you hear me?
-                </div>
-                <div class="bubble you">
-                    I'm in California dreaming
-                </div>
-                <div class="bubble me">
-                    ... about who we used to be.
-                </div>
-                <div class="bubble me">
-                    Are you serious?
-                </div>
-                <div class="bubble you">
-                    When we were younger and free...
-                </div>
-                <div class="bubble you">
-                    I've forgotten how it felt before
-                </div>
-            </div>
-            <div class="chat" data-chat="person3">
-                <div class="conversation-start">
-                    <span>Today, 3:38 AM</span>
-                </div>
-                <div class="bubble you">
-                    Hey human!
-                </div>
-                <div class="bubble you">
-                    Umm... Someone took a shit in the hallway.
-                </div>
-                <div class="bubble me">
-                    ... what.
-                </div>
-                <div class="bubble me">
-                    Are you serious?
-                </div>
-                <div class="bubble you">
-                    I mean...
-                </div>
-                <div class="bubble you">
-                    It’s not that bad...
-                </div>
-                <div class="bubble you">
-                    But we’re probably gonna need a new carpet.
-                </div>
-            </div>
-            <div class="chat" data-chat="person4">
-                <div class="conversation-start">
-                    <span>Yesterday, 4:20 PM</span>
-                </div>
-                <div class="bubble me">
-                    Hey human!
-                </div>
-                <div class="bubble me">
-                    Umm... Someone took a shit in the hallway.
-                </div>
-                <div class="bubble you">
-                    ... what.
-                </div>
-                <div class="bubble you">
-                    Are you serious?
-                </div>
-                <div class="bubble me">
-                    I mean...
-                </div>
-                <div class="bubble me">
-                    It’s not that bad...
-                </div>
-            </div>
-            <div class="chat" data-chat="person5">
-                <div class="conversation-start">
-                    <span>Today, 6:28 AM</span>
-                </div>
-                <div class="bubble you">
-                    Wasup
-                </div>
-                <div class="bubble you">
-                    Wasup
-                </div>
-                <div class="bubble you">
-                    Wasup for the third time like is <br />you blind bitch
-                </div>
-
-            </div>
-            <div class="chat" data-chat="person6">
-                <div class="conversation-start">
-                    <span>Monday, 1:27 PM</span>
-                </div>
-                <div class="bubble you">
-                    So, how's your new phone?
-                </div>
-                <div class="bubble you">
-                    You finally have a smartphone :D
-                </div>
-                <div class="bubble me">
-                    Drake?
-                </div>
-                <div class="bubble me">
-                    Why aren't you answering?
-                </div>
-                <div class="bubble you">
-                    howdoyoudoaspace
+                <div class="bubble me" th:id="me+${ChiGuaUser.id}">
+                   OK!
                 </div>
             </div>
             <div class="write">
                 <a href="javascript:;" class="write-link attach"></a>
-                <input type="text" />
+                <input type="text" id="message"/>
                 <a href="javascript:;" class="write-link smiley"></a>
-                <a href="javascript:;" class="write-link send"></a>
+                <a href="#" class="write-link send" id="send"></a>
             </div>
         </div>
     </div>
 </div>
-
 <script  src="/js/index.js"></script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 </body>
+<script th:inline="javascript">
+    //获取session中的user
+    var userId = [[${session.userId}]];
+    //获取ws服务地址
+    var ws = [[${ws}]]
+
+</script>
+<script type="text/javascript">
+    var websocket;
+    if (!window.WebSocket) {
+        window.WebSocket = window.MozWebSocket;
+    }
+    if (window.WebSocket) {
+        websocket = new WebSocket(ws + "?userId=" + userId);
+        websocket.onmessage = function (event) {
+            var json = JSON.parse(event.data);
+            console.log(json)
+            chats.onmessage(json);
+        };
+        websocket.onopen = function (event) {
+            console.log("Netty-WebSocket服务器。。。。。。连接");
+        };
+        websocket.onclose = function (event) {
+            console.log("Netty-WebSocket服务器。。。。。。关闭");
+        };
+    } else {
+        alert("您的浏览器不支持WebSocket协议！");
+    }
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function () {
+        if (websocket != null) {
+            websocket.close();
+        }
+    };
+</script>
+
+
+<script>
+    /**
+     * sendMessage    发送消息推送给websocket对象
+     * onmessage      接受来自服务端推送的消息,并显示在页面
+     * */
+    var chats = {
+        sendMessage: function () {
+            var message = document.getElementById("message").value; //发送的内容
+            if (message == "") {
+                alert('不能发送空消息');
+                return;
+            }
+            if (!window.WebSocket) {
+                return;
+            }
+            var chatId = document.getElementById("IDS").innerText; //好友Id或房间号id
+
+            var radio=document.getElementsByName("messageType");
+            var messageType="chat";   //  聊天类型
+            for(var i=0;i<radio.length;i++){
+                if(radio[i].checked==true) {
+                    messageType=radio[i].value;
+                    break;
+                }
+            }
+            if (messageType == "chat") {
+                if (chatId == userId) {
+                    alert("不能给自己发私聊信息,请换个好友吧");
+                    return false;
+                }
+                var li = document.createElement("div");
+                li.className="bubble me";
+                li.innerHTML = "My:" + message
+                var ul = document.getElementById('person'+chatId);
+                ul.appendChild(li);
+
+            }
+            if (websocket.readyState == WebSocket.OPEN) {
+                var data = {};
+                data.chatId = chatId;
+                data.message = message;
+                data.userId = userId;
+                data.messageType = messageType;
+                websocket.send(JSON.stringify(data));
+                //清空
+                document.getElementById('message').value="";
+            } else {
+                alert("和服务器连接异常！");
+                return  false;
+            }
+        },
+        onmessage: function (jsonData) {
+            var id;
+            if (jsonData.messageType == "chat") {
+                //id = "chats";
+                id = jsonData.chatId;
+            } else {
+                id = jsonData.chatId;
+            }
+            console.log(id);
+            var li = document.createElement("li");
+            li.className="bubble you";
+            li.innerHTML = "用户id=" + jsonData.userId + ":" + jsonData.message;
+            var ul = document.getElementById('person'+jsonData.userId);
+            ul.appendChild(li);
+        }
+    }
+
+    document.onkeydown = keyDownSearch;
+
+    function keyDownSearch(e) {
+        // 兼容FF和IE和Opera    
+        var theEvent = e || window.event;
+        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        // 13 代表 回车键
+        if (code == 13) {
+            // 要执行的函数 或者点击事件
+            chats.sendMessage();
+            return false;
+        }
+        return true;
+    }
+
+    document.getElementById("send").onclick = function () {
+        chats.sendMessage();
+    }
+</script>
 </html>

@@ -32,6 +32,7 @@ public class UserGroupServiceImpl implements UserGroupService {
     }
     @Override
     public List<Integer> findGroupIdByUserId(Integer userId) {
-        return this.userGroup.get(userId);
+//        return this.userGroup.get(userId);
+        return  null;
     }
 }

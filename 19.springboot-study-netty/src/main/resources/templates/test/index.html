@@ -93,7 +93,8 @@
             }
             var chatId = document.getElementById("chatId").value; //好友Id或房间号id
 
-            var radio=document.getElementsByName("messageType");
+            //var radio=document.getElementsByName("messageType");
+            var radio='chat';
             var messageType=null;   //  聊天类型
             for(var i=0;i<radio.length;i++){
                 if(radio[i].checked==true) {
