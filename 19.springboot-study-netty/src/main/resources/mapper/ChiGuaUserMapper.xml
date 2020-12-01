@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chigua.springboot.mapper.ChiGuaUserMapper">
+ <resultMap id="BaseResultMap" type="com.chigua.springboot.entity.ChiGuaUser">
+     <id column="id" jdbcType="BIGINT" property="id"/>
+     <id column="name" jdbcType="VARCHAR" property="name"/>
+     <id column="pssword" jdbcType="VARCHAR" property="pssword"/>
+     <id column="img" jdbcType="VARCHAR" property="img"/>
+     <id column="preview" jdbcType="VARCHAR" property="preview"/>
+     <id column="sex" jdbcType="VARCHAR" property="sex"/>
+     <id column="type" jdbcType="INTEGER" property="type"/>
+     <id column="iphone" jdbcType="VARCHAR" property="iphone"/>
+     <id column="qq" jdbcType="VARCHAR" property="qq"/>
+     <id column="emil" jdbcType="VARCHAR" property="emil"/>
+     <id column="wx" jdbcType="VARCHAR" property="wx"/>
+     <id column="is_del" jdbcType="INTEGER" property="isDel"/>
+     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+ </resultMap>
+
+</mapper>

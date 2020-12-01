@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * ProjectName: netty-websocket
@@ -95,7 +96,16 @@ public class ChiGuaImController {
         chiGuaUser.setName(logname);
         chiGuaUser.setIsDel(0);
         chiGuaUser.setCreateTime(new Date());
+        chiGuaUser.setImg("images/"+getImg());
         chiGuaUserService.addUser(chiGuaUser);
         return "login";
+    }
+
+    private static  String getImg(){
+        String [] ims={"bo-jackson.jpg","michael-jordan.jpg","own_head.jpg","dog.png","drake.jpg","louis-ck.jpeg","thomas.jpg"};
+        Random random=new Random();
+        int in=random.nextInt(ims.length);
+        return ims[in];
+
     }
 }

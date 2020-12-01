@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>无痕交流网</title>
+    <title>吃瓜网聊</title>
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <link rel="stylesheet" href="css/reset.min.css">
@@ -120,7 +120,7 @@
                 }
                 var li = document.createElement("div");
                 li.className="bubble me";
-                li.innerHTML = "My:" + message
+                li.innerHTML = message
                 var ul = document.getElementById('person'+chatId);
                 ul.appendChild(li);
 
@@ -150,7 +150,7 @@
             console.log(id);
             var li = document.createElement("li");
             li.className="bubble you";
-            li.innerHTML = "用户id=" + jsonData.userId + ":" + jsonData.message;
+            li.innerHTML = jsonData.message;
             var ul = document.getElementById('person'+jsonData.userId);
             ul.appendChild(li);
         }
